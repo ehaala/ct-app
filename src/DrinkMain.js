@@ -10,7 +10,8 @@ class DrinkMain extends Component {
 			type: "Choose Category",
 			drink: "",
 			thumb: "",
-			idDrink: ""
+			idDrink: "",
+			total: ""
 		}
 
 		this.handleSelectChange = this.handleSelectChange.bind(this);
@@ -35,10 +36,14 @@ class DrinkMain extends Component {
       .then((response) => {
         return response.json()
       }).then((json) => {
+      		let total = json.drinks.length;
+      		let random = Math.random();
+      		let num = Math.floor(random * total);
           base.setState({ 
-          	drink: json.drinks[0].strDrink,
-          	thumb: json.drinks[0].strDrinkThumb,
-          	idDrink: json.drinks[0].idDrink
+          	drink: json.drinks[num].strDrink,
+          	thumb: json.drinks[num].strDrinkThumb,
+          	idDrink: json.drinks[num].idDrink,
+          	total: json.drinks.length
           });
       }).catch((ex) => {
         console.log('An error occured while parsing!', ex)
@@ -64,6 +69,7 @@ class DrinkMain extends Component {
 
   render() {
     let drink = this.state.drink;
+    let total = this.state.total;
     return (
       <Row>
       	<Col xs={12} sm={6}>
@@ -77,6 +83,7 @@ class DrinkMain extends Component {
 	      		</select>
 	      	</fieldset>
 	      	<Button bsStyle="info" onClick={this.findDrink}>Find Drink</Button>
+	      	<p>Total Drinks: {total}</p>
 	        <h1>{drink}</h1>
 	        <img src={'http://' + this.state.thumb} height='300px'/>
 	        <p>{this.state.idDrink}</p>
