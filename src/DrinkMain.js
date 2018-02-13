@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { Button, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Button, Row, Col, MenuItem } from 'react-bootstrap';
 
-class Api extends Component {
+import DrinkDetails from './DrinkDetails.js';
+
+class DrinkMain extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			type: "Choose Category",
 			drink: "",
-			thumb: ""
+			thumb: "",
+			idDrink: ""
 		}
 
 		this.handleSelectChange = this.handleSelectChange.bind(this);
@@ -34,7 +37,8 @@ class Api extends Component {
       }).then((json) => {
           base.setState({ 
           	drink: json.drinks[0].strDrink,
-          	thumb: json.drinks[0].strDrinkThumb
+          	thumb: json.drinks[0].strDrinkThumb,
+          	idDrink: json.drinks[0].idDrink
           });
       }).catch((ex) => {
         console.log('An error occured while parsing!', ex)
@@ -61,23 +65,28 @@ class Api extends Component {
   render() {
     let drink = this.state.drink;
     return (
-      <div>
-
-      	<fieldset>
-      		<label for="type">Type</label>
-      		<select id="type" name="type" value={this.state.type} onChange={this.handleSelectChange}>
-      			<option value="null" id="null">Select Type</option>
-      			<option value="Gin" id="Gin">Gin</option>
-      			<option value="Rum" id="Rum">Rum</option>
-      			<option value="Vodka" id="Vodka">Vodka</option>
-      		</select>
-      	</fieldset>
-      	<Button bsStyle="info" onClick={this.findDrink}>Find Drink</Button>
-        <h1>{drink}</h1>
-        <img src={'http://' + this.state.thumb} height='300px'/>
-      </div>
+      <Row>
+      	<Col xs={12} sm={6}>
+	      	<fieldset>
+	      		<label for="type">Type</label>
+	      		<select id="type" name="type" value={this.state.type} onChange={this.handleSelectChange}>
+	      			<option value="null" id="null">Select Type</option>
+	      			<option value="Gin" id="Gin">Gin</option>
+	      			<option value="Rum" id="Rum">Rum</option>
+	      			<option value="Vodka" id="Vodka">Vodka</option>
+	      		</select>
+	      	</fieldset>
+	      	<Button bsStyle="info" onClick={this.findDrink}>Find Drink</Button>
+	        <h1>{drink}</h1>
+	        <img src={'http://' + this.state.thumb} height='300px'/>
+	        <p>{this.state.idDrink}</p>
+        </Col>
+        <Col xs={12} sm={6}>
+        	<DrinkDetails idDrink={this.state.idDrink}/>
+        </Col>
+      </Row>
      )
   }
 }
 
-export default Api;
+export default DrinkMain;

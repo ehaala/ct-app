@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Api from './Api.js';
+import DrinkMain from './DrinkMain.js';
 
 class App extends Component {
   render() {
@@ -10,7 +10,7 @@ class App extends Component {
         <header>
           <h1>Cocktail App (TBD)</h1>
         </header>
-        <Api />
+        <DrinkMain />
       </div>
     );
   }
